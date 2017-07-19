@@ -65,7 +65,7 @@ kubectl run nginx --image nginx
 kubectl expose deployments nginx --port=80 --type=LoadBalancer
 ```
 
-## browser nginx
+## browse nginx
 ```
 kubectl get svc
 ```
@@ -80,6 +80,54 @@ kubectl describe pod <id>
 az acr create --resource-group azure-meetup-ka --name AzureMeetupKAACR --sku Basic --admin-enabled true
 ```
 
+## Get ACR credentials
+```
+az acr list --resource-group myResourceGroup --query "[].{acrName:name,acrLoginServer:loginServer}" --output table
+az acr credential show --name <acrName> --query passwords[0].value -o tsv
+```
+
+## Login to ACR
+```
+docker login --username=<acrName> --password=<acrPassword> <acrLoginServer>
+```
+
+## Build images
+```
+docker build ./azure-voting-app/azure-vote -t azure-vote-front
+docker build ./azure-voting-app/azure-back -t azure-vote-back
+```
+
+## tag images
+```
+docker tag azure-vote-back <acrLoginServer>/azure-vote-back:v1
+docker tag azure-vote-front <acrLoginServer>/azure-vote-front:v1
+```
+
+## push images
+```
+docker push <acrLoginServer>/azure-vote-back:v1
+docker push <acrLoginServer>/azure-vote-front:v1
+```
+
+## list images
+```
+az acr repository list --name <acrName> --username <acrName> --password <acrPassword> --output table
+az acr repository show-tags --name <acrName> --username <acrName> --password <acrPassword> --repository azure-vote-front --output table
+```
+
+## deploy application
+```
+kubectl create -f storage-resources.yaml
+kubectl create -f pod-secrets.yaml
+kubectl create -f azure-vote-deployment.yaml
+kubectl create -f services.yaml
+```
+
+## wait for deployment
+```
+kubectl get service -w
+```
+
 ## Scale pods
 ```
 kubectl scale --replicas=2 deployment/azure-vote-front
@@ -88,4 +136,24 @@ kubectl scale --replicas=2 deployment/azure-vote-front
 ## Scale agents
 ```
 az acs scale --resource-group=hellokubernetes --name=azuresaturday --new-agent-count 2
+```
+
+## update deployment
+```
+change config_file.cfg
+```
+
+## rebuild front-image
+```
+docker build --no-cache ./azure-voting-app/azure-vote -t azure-vote-front:v2
+```
+
+## re-tag front-image
+```
+docker tag azure-vote-front:v2 <acrLoginServer>/azure-vote-front:v2
+```
+
+## push front-image v2
+```
+docker push <acrLoginServer>/azure-vote-front:v2
 ```
