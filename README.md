@@ -10,6 +10,11 @@ curl -L https://aka.ms/InstallAzureCli | bash
 az login
 ```
 
+## Select subscription
+```
+az account set --subscription <subscriptionid>
+```
+
 ## Create Resoure Group
 ```
 az group create --name myResourceGroup --location eastus
