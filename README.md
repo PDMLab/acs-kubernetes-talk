@@ -157,3 +157,8 @@ docker tag azure-vote-front:v2 <acrLoginServer>/azure-vote-front:v2
 ```
 docker push <acrLoginServer>/azure-vote-front:v2
 ```
+
+## update front deployment
+```
+kubectl set image deployment azure-vote-front azure-vote-front=<acrLoginServer>/azure-vote-front:v2
+```
