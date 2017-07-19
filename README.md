@@ -50,6 +50,11 @@ kubectl get svc
 kubectl get pods
 ```
 
+## GUI
+```
+az acs kubernetes browse -g <resourceGroup> -n <clusterName>
+```
+
 ## run nginx
 ```
 kubectl run nginx --image nginx
