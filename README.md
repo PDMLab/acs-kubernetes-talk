@@ -75,6 +75,11 @@ kubectl get svc
 kubectl describe pod <id>
 ```
 
+## Create ACR
+```
+az acr create --resource-group azure-meetup-ka --name AzureMeetupKAACR --sku Basic --admin-enabled true
+```
+
 ## Scale pods
 ```
 kubectl scale --replicas=2 deployment/azure-vote-front
