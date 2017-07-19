@@ -65,6 +65,11 @@ kubectl run nginx --image nginx
 kubectl expose deployments nginx --port=80 --type=LoadBalancer
 ```
 
+## browser nginx
+```
+kubectl get svc
+```
+
 ## pod details
 ```
 kubectl describe pod <id>
