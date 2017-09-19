@@ -17,7 +17,7 @@ az account set --subscription <subscriptionid>
 
 ## Create Resoure Group
 ```
-az group create --name myResourceGroup --location eastus
+az group create --location eastus --name myResourceGroup
 ```
 
 ## Create Cluster
